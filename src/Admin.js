@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Editor = () => (
+const Admin = () => (
     <div className="page-wrapper">
-        <h1>Editor Page</h1>
+        <h1>Admin Page</h1>
     </div>
 );
 
-export default Editor;
+export default Admin;

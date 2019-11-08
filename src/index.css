@@ -8,7 +8,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.editor-wrapper {
+.page-wrapper {
   width: 100%;
   height: 100vh;
 }
