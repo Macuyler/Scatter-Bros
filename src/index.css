@@ -12,3 +12,82 @@ body {
   width: 100%;
   height: 100vh;
 }
+
+.pipe1, .pipe2, .pipe3, .pipe5, .pipe7, .pipe90 {
+  background-color: #fafafa;
+  transition: 40ms ease;
+  display: block;
+  margin: 0;
+  box-sizing: content-box;
+  cursor: pointer;
+  position: absolute;
+}
+
+.pipe1 {
+  width: 60px;
+  height: 30px;
+}
+.pipe1.rot1, .pipe1.rot3 {
+  width: 30px;
+  height: 60px;
+}
+.pipe2 {
+  width: 120px;
+  height: 30px;
+}
+.pipe2.rot1, .pipe2.rot3 {
+  width: 30px;
+  height: 120px;
+}
+.pipe3 {
+  width: 180px;
+  height: 30px;
+}
+.pipe3.rot1, .pipe3.rot3 {
+  width: 30px;
+  height: 180px;
+}
+.pipe5 {
+  width: 300px;
+  height: 30px;
+}
+.pipe5.rot1, .pipe5.rot3 {
+  width: 30px;
+  height: 300px;
+}
+.pipe7 {
+  width: 420px;
+  height: 30px;
+}
+.pipe7.rot1, .pipe7.rot3 {
+  width: 30px;
+  height: 420px;
+}
+
+.pipe90 {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.pipe90 > span {
+  width: 30px;
+  height: 30px;
+  display: block;
+  background-color: #2e2e2e;
+  cursor: default;
+}
+.pipe90.rot1 {
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+.pipe90.rot2 {
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.pipe90.rot3 {
+  justify-content: flex-start;
+  align-items: flex-end;
+}
