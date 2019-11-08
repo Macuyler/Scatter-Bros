@@ -51,7 +51,16 @@ const Editor = () => {
                                 <span />
                             </>
                         ) : null }
-                        {p.pipeType === 't' ? <span /> : null }
+                        {p.pipeType === 't' ? (
+                            <>
+                                <span />
+                                <span />
+                                <span />
+                                <span />
+                                <span />
+                                <span />
+                            </>
+                        ) : null }
                     </div>
                 </Draggable>
             ))}
