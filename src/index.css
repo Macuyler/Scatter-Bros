@@ -25,6 +25,13 @@ body {
   height: 100vh;
 }
 
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 .pipe1, .pipe2, .pipe3, .pipe5, .pipe7, .pipe90, .pipet, .pipecap, .pipecon {
   background-color: #fafafa;
   transition: 60ms ease;
