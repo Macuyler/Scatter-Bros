@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Redirect } from "react-router";
 import { Paper, Typography, TextField, Button, Modal } from "@material-ui/core";
+import { Elements, injectStripe, CardElement } from 'react-stripe-elements';
 
-class Checkout extends Component {
+class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,22 +14,156 @@ class Checkout extends Component {
       address: '',
       city: '',
       state: '',
-      zip: '',
-      showModal: false
+      zip: ''
+    };
+    this.getToken = this.getToken.bind(this);
+  }
+
+  getToken = async (e) => {
+    e.preventDefault();
+    const { token } = await this.props.stripe.createToken({ name: 'Name' });
+    this.props.handleSubmit(token, this.state);
+  };
+
+  render() {
+    return (
+      <form className="checkout-form" onSubmit={this.getToken}>
+        <div className="defaultFlex">
+          <div className="text-field-left">
+            <TextField
+              fullWidth
+              id="outlined-basic"
+              className="textField"
+              label="First Name"
+              margin="normal"
+              variant="outlined"
+              value={this.state.fName}
+              onChange={e => this.setState({ fName: e.target.value })}
+            />
+          </div>
+          <div className="text-field-right">
+            <TextField
+              fullWidth
+              id="outlined-basic"
+              className="textField"
+              label="Last Name"
+              margin="normal"
+              variant="outlined"
+              value={this.state.lName}
+              onChange={e => this.setState({ lName: e.target.value })}
+            />
+          </div>
+        </div>
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          className="textField"
+          label="Email"
+          margin="normal"
+          variant="outlined"
+          color="secondary"
+          value={this.state.email}
+          onChange={e => this.setState({ email: e.target.value })}
+        />
+        <TextField
+          fullWidth
+          id="outlined-basic"
+          className="textField"
+          label="Shipping Address"
+          margin="normal"
+          variant="outlined"
+          value={this.state.address}
+          onChange={e => this.setState({ address: e.target.value })}
+        />
+        <div className="defaultFlex">
+          <div className="text-field-left">
+            <TextField
+              fullWidth
+              id="outlined-basic"
+              className="textField"
+              label="City"
+              margin="normal"
+              variant="outlined"
+              color="secondary"
+              value={this.state.city}
+              onChange={e => this.setState({ city: e.target.value })}
+            />
+          </div>
+          <div className="text-field-center">
+            <TextField
+              fullWidth
+              id="outlined-basic"
+              className="textField"
+              label="State"
+              margin="normal"
+              color="secondary"
+              variant="outlined"
+              value={this.state.state}
+              onChange={e => this.setState({ state: e.target.value })}
+            />
+          </div>
+          <div className="text-field-right" style={{ marginBottom: 20 }}>
+            <TextField
+              fullWidth
+              id="outlined-basic"
+              className="textField"
+              label="Zip Code"
+              margin="normal"
+              color="secondary"
+              variant="outlined"
+              value={this.state.zip}
+              onChange={e => this.setState({ zip: e.target.value })}
+            />
+          </div>
+        </div>
+        <CardElement />
+        <Button type="submit" style={{ width: '40%', marginTop: 24, marginLeft: '30%' }} variant="contained" color="primary">Submit</Button>
+      </form>
+    )
+  }
+}
+const StripeFrom = injectStripe(Form);
+
+class Checkout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+      token: null,
+      price: 0
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit(token, data) {
     const { parts, name } = this.props.location.state;
-    const { fName, lName, email, address, city, state, zip } = this.state;
-    this.props.db
-      .collection('purchases')
-      .doc()
-      .set({ fName, lName, email, address, city, state, zip, parts, name })
-      .then(() => this.setState({ showModal: true }))
-      .catch(err => console.log(err));
+    const { fName, lName, email, address, city, state, zip } = data;
+    let total = 5;
+    parts.forEach(p => total += p.quantity * 0.5);
+    if (token) {
+      fetch('http://localhost:9000/buy', {
+        method: 'POST',
+        body: JSON.stringify({
+          token: token.id,
+          price: total
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then((res) => {
+        if (res.status === 200) {
+          this.props.db
+            .collection('purchases')
+            .doc()
+            .set({ fName, lName, email, address, city, state, zip, parts, name })
+            .then(() => this.setState({ showModal: true }))
+            .catch(err => console.log(err));
+        } else {
+          console.log(res);
+          this.setState({ showModal: true });
+        }
+      })
+    }
   }
 
   render() {
@@ -142,104 +277,16 @@ class Checkout extends Component {
                 {toCurrency(getSubtotal() + 10)}
               </Typography>
             </div>
-            <form className="checkout-form" onSubmit={this.handleSubmit}>
-              <div className="defaultFlex">
-                <div className="text-field-left">
-                  <TextField
-                    fullWidth
-                    id="outlined-basic"
-                    className="textField"
-                    label="First Name"
-                    margin="normal"
-                    variant="outlined"
-                    value={this.state.fName}
-                    onChange={e => this.setState({ fName: e.target.value })}
-                  />
-                </div>
-                <div className="text-field-right">
-                  <TextField
-                    fullWidth
-                    id="outlined-basic"
-                    className="textField"
-                    label="Last Name"
-                    margin="normal"
-                    variant="outlined"
-                    value={this.state.lName}
-                    onChange={e => this.setState({ lName: e.target.value })}
-                  />
-                </div>
-              </div>
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                className="textField"
-                label="Email"
-                margin="normal"
-                variant="outlined"
-                color="secondary"
-                value={this.state.email}
-                onChange={e => this.setState({ email: e.target.value })}
-              />
-              <TextField
-                fullWidth
-                id="outlined-basic"
-                className="textField"
-                label="Shipping Address"
-                margin="normal"
-                variant="outlined"
-                value={this.state.address}
-                onChange={e => this.setState({ address: e.target.value })}
-              />
-              <div className="defaultFlex">
-                <div className="text-field-left">
-                  <TextField
-                    fullWidth
-                    id="outlined-basic"
-                    className="textField"
-                    label="City"
-                    margin="normal"
-                    variant="outlined"
-                    color="secondary"
-                    value={this.state.city}
-                    onChange={e => this.setState({ city: e.target.value })}
-                  />
-                </div>
-                <div className="text-field-center">
-                  <TextField
-                    fullWidth
-                    id="outlined-basic"
-                    className="textField"
-                    label="State"
-                    margin="normal"
-                    color="secondary"
-                    variant="outlined"
-                    value={this.state.state}
-                    onChange={e => this.setState({ state: e.target.value })}
-                  />
-                </div>
-                <div className="text-field-right">
-                  <TextField
-                    fullWidth
-                    id="outlined-basic"
-                    className="textField"
-                    label="Zip Code"
-                    margin="normal"
-                    color="secondary"
-                    variant="outlined"
-                    value={this.state.zip}
-                    onChange={e => this.setState({ zip: e.target.value })}
-                  />
-                </div>
-              </div>
-              <Button type="submit" style={{ width: '40%', marginTop: 16, marginLeft: '30%' }} variant="contained" color="primary">Submit</Button>
-            </form>
+              <Elements>
+              <StripeFrom handleSubmit={this.handleSubmit} />
+              </Elements>
           </Paper>
         </div>
         <Modal
           aria-labelledby="Successfully Placed your Order"
           aria-describedby="Your Purchase will be processed and shipped within 3-5 business days."
           open={this.state.showModal}
-          onClose={() => this.setState({ showModal: false })}
+          onClose={() => {}}
           style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
           disableAutoFocus
         >

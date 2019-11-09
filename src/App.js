@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import { StripeProvider } from 'react-stripe-elements';
 import { Typography, Button, MuiThemeProvider } from '@material-ui/core';
 import firebase from './firebase';
 import 'firebase/firebase-firestore';
@@ -23,19 +24,36 @@ const Home = () => {
   );
 };
 
-const App = () => (
-  <MuiThemeProvider theme={theme}>
-    <div className="app-wrapper">
-      <Router>
-        <Switch>
-          <Route path="/edit" component={Editor} />
-          <Route path="/checkout" component={(props) => <Checkout db={db} {...props} />} />
-          <Route path="/admin" component={(props) => <Admin db={db} {...props} />} />
-          <Route path="/" component={Home} />
-        </Switch>
-      </Router>
-    </div>
-  </MuiThemeProvider>
-);
+const App = () => {
+  const [ stripeKey, setStripeKey ] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:9000/stripe_key', {
+      method: 'GET'
+    })
+      .then(res => res.json())
+      .then(res => setStripeKey(res.stripe_key))
+      .catch(err => console.log(err));
+  }, []);
+
+  const Wrapper = stripeKey ? StripeProvider : () => (<></>);
+
+  return (
+    <MuiThemeProvider theme={theme}>
+      <Wrapper apiKey={stripeKey}>
+        <div className="app-wrapper">
+          <Router>
+            <Switch>
+              <Route path="/edit" component={Editor} />
+              <Route path="/checkout" component={(props) => <Checkout db={db} {...props} />} />
+              <Route path="/admin" component={(props) => <Admin db={db} {...props} />} />
+              <Route path="/" component={Home} />
+            </Switch>
+          </Router>
+        </div>
+      </Wrapper>
+    </MuiThemeProvider>
+  );
+};
 
 export default App;
