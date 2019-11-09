@@ -16,7 +16,7 @@ const Home = () => {
   return (
     <div className="page-wrapper banner">
       <Typography variant="h1" style={{ color: '#fff' }}>Scatter Bros</Typography>
-      <Typography variant="body1" style={{ color: '#fafafa', width: '50%' }}>Build Your Dream Marshmallow Launcher! This site lets you customize your very own PVC pipe marshmallow launcher. After you design your dream launcher we will ship the parts right to your door!</Typography>
+      <Typography variant="body1" style={{ color: '#fafafa', width: '43%', textAlign: 'center' }}>Build Your Dream Marshmallow Launcher! This site lets you customize your very own PVC pipe marshmallow launcher. After you design your dream launcher we will ship the parts right to your door!</Typography>
       <Button onClick={() => setGo(true)} variant="contained" color="primary" style={{ marginTop: 20, width: 300 }}>Get Started</Button>
       {go ? <Redirect to="/edit" /> : null}
     </div>
