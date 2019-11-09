@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router';
 import Draggable from 'react-draggable';
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -21,6 +22,8 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        flexDirection: 'row',
+        alignItems: 'space-between'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -73,6 +76,8 @@ const Editor = () => {
     const [showDrawer, setShowDrawer] = useState(true);
     const [pipes, setPipes] = useState([]);
     const [selected, setSelected] = useState({ id: 1, pipeType: 1, rot: 1 });
+    const [goToCheckout, setGoToCheckout] = useState(false);
+    const [checkoutData, setCheckoutData] = useState([]);
 
     const getIndex = (s) => pipes.indexOf(pipes.find(e => e.id === s.id));
 
@@ -102,6 +107,21 @@ const Editor = () => {
         }
     }
 
+    const checkout = () => {
+        const data = {};
+        pipes.forEach(p => {
+            const k = `pipe${p.pipeType}`;
+            if (Object.keys(data).includes(k)) {
+                data[k] += 1;
+            } else {
+                data[k] = 1;
+            }
+        });
+        const c = Object.keys(data).map(d => ({ pipeType: d, quantity: data[d] }));
+        setCheckoutData(c);
+        setGoToCheckout(true);
+    };
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -117,7 +137,7 @@ const Editor = () => {
                     [classes.appBarShift]: showDrawer,
                 })}
             >
-                <Toolbar>
+                <Toolbar style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -130,7 +150,7 @@ const Editor = () => {
                     <Typography variant="h6" noWrap>
                         Scatter Bros
                     </Typography>
-                    <Button color="inherit">Login</Button>
+                    <Button onClick={checkout} color="inherit">Purchase</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -220,6 +240,7 @@ const Editor = () => {
                     </div>
                 </Draggable>
             ))}
+            {goToCheckout ? <Redirect to={{ pathname: "/checkout", state: { parts: checkoutData, name: '' } }} /> : null}
         </div>
     );
 };
