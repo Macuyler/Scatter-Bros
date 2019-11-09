@@ -8,13 +8,13 @@ class Form extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fName: '',
-      lName: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: ''
+      fName: "",
+      lName: "",
+      email: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: ""
     };
     this.getToken = this.getToken.bind(this);
   }
@@ -28,7 +28,7 @@ class Form extends Component {
   render() {
     return (
       <form className="checkout-form" onSubmit={this.getToken}>
-        <div className="defaultFlex">
+        <div className="default-flex">
           <div className="text-field-left">
             <TextField
               fullWidth
@@ -57,7 +57,7 @@ class Form extends Component {
         <TextField
           fullWidth
           id="outlined-basic"
-          className="textField"
+          className="text-field"
           label="Email"
           margin="normal"
           variant="outlined"
@@ -68,14 +68,14 @@ class Form extends Component {
         <TextField
           fullWidth
           id="outlined-basic"
-          className="textField"
+          className="text-field"
           label="Shipping Address"
           margin="normal"
           variant="outlined"
           value={this.state.address}
           onChange={e => this.setState({ address: e.target.value })}
         />
-        <div className="defaultFlex">
+        <div className="default-flex">
           <div className="text-field-left">
             <TextField
               fullWidth
@@ -261,7 +261,7 @@ class Checkout extends Component {
                 {toCurrency(getSubtotal())}
               </Typography>
             </div>
-            <div className="item-subtotal" style={{ paddingTop: 0, color: '#a9a9a9' }}>
+            <div className="item-subtotal" style={{ paddingTop: 0, color: "#a9a9a9" }}>
               <Typography variant="h6" component="h3">
                 Shipping
               </Typography>
@@ -277,9 +277,9 @@ class Checkout extends Component {
                 {toCurrency(getSubtotal() + 10)}
               </Typography>
             </div>
-              <Elements>
+            <Elements>
               <StripeFrom handleSubmit={this.handleSubmit} />
-              </Elements>
+            </Elements>
           </Paper>
         </div>
         <Modal
