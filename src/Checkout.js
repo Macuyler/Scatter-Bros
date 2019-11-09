@@ -133,7 +133,7 @@ class Checkout extends Component {
                 fullWidth
                 id="outlined-basic"
                 className="textField"
-                label="Address"
+                label="Shipping Address"
                 margin="normal"
                 variant="outlined"
               />
