@@ -121,6 +121,22 @@ class Checkout extends Component {
                   />
                 </div>
               </div>
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                className="textField"
+                label="Email"
+                margin="normal"
+                variant="outlined"
+              />
+              <TextField
+                fullWidth
+                id="outlined-basic"
+                className="textField"
+                label="Address"
+                margin="normal"
+                variant="outlined"
+              />
               <div className="defaultFlex">
                 <div className="text-field-left">
                   <TextField
