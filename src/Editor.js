@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import Draggable from 'react-draggable';
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider, Modal, Paper, TextField } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider, Modal, Paper, TextField, Tooltip } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
@@ -186,18 +186,27 @@ const Editor = () => {
                     </IconButton>
                 </div>
                 <Divider />
+                <Tooltip title="2 Inch Pipe" placement="right">
                 <button className="blank" onClick={() => addPipe(2)}>
                     <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                </Tooltip>
+                <Tooltip title="3 Inch Pipe" placement="right">
                 <button className="blank" onClick={() => addPipe(3)}>
                     <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                </Tooltip>
+                <Tooltip title="5 Inch Pipe" placement="right">
                 <button className="blank" onClick={() => addPipe(5)}>
                     <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                </Tooltip>
+                <Tooltip title="7 Inch Pipe" placement="right">
                 <button className="blank" onClick={() => addPipe(7)}>
                     <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                </Tooltip>
+                <Tooltip title="90deg Elbow" placement="right">
                 <button className="blank" onClick={() => addPipe(90)}>
                     <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
                         <span style={{ border: 'none' }} />
@@ -206,6 +215,8 @@ const Editor = () => {
                         <span style={{ border: 'none' }} />
                     </div>
                 </button>
+                </Tooltip>
+                <Tooltip title="T Connector" placement="right">
                 <button className="blank" onClick={() => addPipe('t')}>
                     <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
                         <span style={{ border: 'none' }} />
@@ -216,20 +227,29 @@ const Editor = () => {
                         <span style={{ border: 'none' }} />
                     </div>
                 </button>
+                </Tooltip>
+                <Tooltip title="Pipe Cap" placement="right">
                 <button className="blank" onClick={() => addPipe('cap', 3)}>
                     <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                </Tooltip>
+                <Tooltip title="Coupler (Connector)" placement="right">
                 <button className="blank" onClick={() => addPipe('con')}>
                     <div className="pipecon still" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
                 </button>
+                </Tooltip>
             </Drawer>
 
-            <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
-                <RotateRightIcon />
-            </Fab>
-            <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'absolute', bottom: 30, right: 110 }}>
-                <DeleteIcon />
-            </Fab>
+            <Tooltip title="Rotate" placement="top">
+                <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
+                    <RotateRightIcon />
+                </Fab>
+            </Tooltip>
+            <Tooltip title="Delete" placement="top">
+                <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'absolute', bottom: 30, right: 110 }}>
+                    <DeleteIcon />
+                </Fab>
+            </Tooltip>
             {pipes.map((p, i) => (
                 <Draggable
                     key={p.id}
