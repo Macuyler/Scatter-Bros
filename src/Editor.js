@@ -87,6 +87,12 @@ const Editor = () => {
         }
     };
 
+    const addPipe = (pipeType) => {
+        const p = { id: Math.floor(Math.random() * 2000), pipeType, rot: 0 };
+        setPipes([...pipes, p]);
+        setSelected(p);
+    };
+
     const deleteSelected = () => {
         if (selected) {
             const s = getIndex(selected);
@@ -142,19 +148,19 @@ const Editor = () => {
                     </IconButton>
                 </div>
                 <Divider />
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 2, rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe(2)}>
                     <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 3, rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe(3)}>
                     <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 5, rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe(5)}>
                     <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 7, rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe(7)}>
                     <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 90, rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe(90)}>
                     <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
                         <span style={{ border: 'none' }} />
                         <span style={{ border: 'none' }} />
@@ -162,7 +168,7 @@ const Editor = () => {
                         <span style={{ border: 'none' }} />
                     </div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 't', rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe('t')}>
                     <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
                         <span style={{ border: 'none' }} />
                         <span style={{ border: 'none' }} />
@@ -172,7 +178,7 @@ const Editor = () => {
                         <span style={{ border: 'none' }} />
                     </div>
                 </button>
-                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 'cap', rot: 0 }])}>
+                <button className="blank" onClick={() => addPipe('cap')}>
                     <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
             </Drawer>
@@ -183,7 +189,7 @@ const Editor = () => {
             <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'absolute', bottom: 30, right: 110 }}>
                 <DeleteIcon />
             </Fab>
-            {pipes.map(p => (
+            {pipes.map((p, i) => (
                 <Draggable
                     key={p.id}
                     defaultPosition={{ x: 520, y: 104 * 5 }}
@@ -192,7 +198,7 @@ const Editor = () => {
                     onStart={() => setSelected(p)}
                     onStop={e => console.log(e)}
                 >
-                    <div className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
+                    <div className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}${i === getIndex(selected) ? ' selected' : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
                         {p.pipeType === 90 ? (
                             <>
                                 <span />

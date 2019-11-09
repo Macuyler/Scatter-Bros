@@ -29,6 +29,9 @@ body {
   cursor: pointer;
   position: absolute;
 }
+.pipe1.selected, .pipe2.selected, .pipe3.selected, .pipe5.selected, .pipe7.selected, .pipecap.selected, .pipecon.selected {
+  outline: 2px solid rgba(26, 141, 235, 0.4);
+}
 
 .pipe1 {
   width: var(--inch);
