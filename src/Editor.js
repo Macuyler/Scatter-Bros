@@ -71,7 +71,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Editor = () => {
-    const [showDrawer, setShowDrawer] = useState(false);
+    const [showDrawer, setShowDrawer] = useState(true);
     const [pipes, setPipes] = useState([]);
     const [selected, setSelected] = useState({ id: 1, pipeType: 1, rot: 1 });
 
