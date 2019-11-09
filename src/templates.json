@@ -1,0 +1,171 @@
+{
+    "templates": [
+        {
+            "name": "El Cheapo",
+            "parts": [
+                {
+                    "pipeType": "t",
+                    "rot": 0,
+                    "x": 728,
+                    "y": 416
+                },
+
+{"pipeType": 3,
+"rot": 0,
+"x": 572,
+"y": 416
+},
+
+
+{"pipeType": 5,
+"rot": 0,
+"x": 884,
+"y": 416},
+{"pipeType": "cap",
+"rot": 3,
+"x": 780,
+"y": 728},
+
+{"pipeType": 5,
+"rot": 1,
+"x": 780,
+"y": 468}
+            ]
+        },
+        {
+            "name": "...",
+            "parts": [
+
+
+{"pipeType": 2,
+"rot": 0,
+"x": 540,
+"y": 208},
+
+{"pipeType": 90,
+"rot": 1,
+"x": 624,
+"y": 208},
+
+{"pipeType": 2,
+"rot": 1,
+"x": 676,
+"y": 312},
+
+{"pipeType": 90,
+"rot": 3,
+"x": 676,
+"y": 416},
+
+{"pipeType": "t",
+"rot": 0,
+"x": 936,
+"y": 468},
+
+{"pipeType": 3,
+"rot": 0,
+"x": 780,
+"y": 468},
+
+{"pipeType": 5,
+"rot": 1,
+"x": 988,
+"y": 520},
+
+{"pipeType": "cap",
+"rot": 3,
+"x": 988,
+"y": 780},
+
+{"pipeType": 5,
+"rot": 0,
+"x": 1092,
+"y": 468}
+
+            ]
+        },
+        {
+            "name": "...",
+            "parts": [
+                {
+                    "pipeType": 2,
+                    "rot": 0,
+                    "x": 540,
+                    "y": 208
+                },
+                {
+                    "pipeType": 90,
+                    "rot": 1,
+                    "x": 624,
+                    "y": 208
+                },
+                {
+                    "pipeType": 2,
+                    "rot": 1,
+                    "x": 676,
+                    "y": 312
+                },
+                {
+                    "pipeType": 90,
+                    "rot": 3,
+                    "x": 676,
+                    "y": 416
+                },
+                {
+                    "pipeType": "t",
+                    "rot": 0,
+                    "x": 936,
+                    "y": 468
+                },
+                {
+                    "pipeType": 3,
+                    "rot": 0,
+                    "x": 780,
+                    "y": 468
+                },
+                {
+                    "pipeType": 5,
+                    "rot": 1,
+                    "x": 988,
+                    "y": 520
+                },
+                {
+                    "pipeType": "cap",
+                    "rot": 3,
+                    "x": 988,
+                    "y": 780
+                },
+                {
+                    "pipeType": 5,
+                    "rot": 0,
+                    "x": 1092,
+                    "y": 468
+                },
+                {
+                    "pipeType": "t",
+                    "rot": 0,
+                    "x": 1352,
+                    "y": 468
+                },
+                {
+                    "pipeType": 5,
+                    "rot": 1,
+                    "x": 1404,
+                    "y": 520
+                },
+                {
+                    "pipeType": "cap",
+                    "rot": 3,
+                    "x": 1404,
+                    "y": 780
+                },
+                {
+                    "pipeType": 7,
+                    "rot": 0,
+                    "x": 1508,
+                    "y": 468
+                }
+            ]
+        }
+    ]
+}

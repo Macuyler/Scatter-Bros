@@ -11,6 +11,7 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import clsx from 'clsx';
 import { connectors } from './globals.js';
+import templates from './templates.json';
 
 const drawerWidth = 480;
 
@@ -83,6 +84,7 @@ const Editor = () => {
     const [moving, setMoving] = useState(false);
     const [checkoutData, setCheckoutData] = useState([]);
     const [name, setName] = useState('');
+    const [templateIndex, setTemplateIndex] = useState(0);
 
     const getIndex = (s) => pipes.indexOf(pipes.find(e => e.id === s.id));
 
@@ -137,6 +139,16 @@ const Editor = () => {
             pipes[i].y = y;
             setPipes([...pipes]);
         }
+    };
+
+    const loadTemp = () => {
+        const parts = templates.templates[templateIndex].parts;
+        const newPipes = [];
+        parts.forEach(p => {
+            newPipes.push({ id: Math.floor(Math.random() * 2000), x: p.x, y: p.y, rot: p.rot, pipeType: p.pipeType });
+        });
+        setPipes(newPipes);
+        setTemplateIndex((templateIndex + 1) % templates.templates.length);
     };
 
     const classes = useStyles();
@@ -238,6 +250,7 @@ const Editor = () => {
                     <div className="pipecon still" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
                 </button>
                 </Tooltip>
+                <Button style={{width: '80%', position: 'absolute', bottom: 30, left: '10%'}} variant="contained" color="secondary" onClick={loadTemp}>Load a Template</Button>
             </Drawer>
 
             <Tooltip title="Rotate" placement="top">
@@ -253,7 +266,7 @@ const Editor = () => {
             {pipes.map((p, i) => (
                 <Draggable
                     key={p.id}
-                    defaultPosition={{ x: 520, y: 104 }}
+                    defaultPosition={{ x: p.x || 520, y: p.y || 104 }}
                     grid={[52, 52]}
                     scale={1}
                     onStart={() => {
