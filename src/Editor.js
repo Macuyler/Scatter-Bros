@@ -79,6 +79,7 @@ const Editor = () => {
     const [pipes, setPipes] = useState([]);
     const [selected, setSelected] = useState({ id: 1, pipeType: 1, rot: 1 });
     const [goToCheckout, setGoToCheckout] = useState(false);
+    const [moving, setMoving] = useState(false);
     const [checkoutData, setCheckoutData] = useState([]);
     const [name, setName] = useState('');
 
@@ -231,10 +232,16 @@ const Editor = () => {
                     defaultPosition={{ x: 520, y: 104 * 5 }}
                     grid={[52, 52]}
                     scale={1}
-                    onStart={() => setSelected(p)}
-                    onStop={() => handleDrop(`${p.pipeType}-${p.id}`)}
+                    onStart={() => {
+                        setSelected(p);
+                        setMoving(true);
+                    }}
+                    onStop={() => {
+                        handleDrop(`${p.pipeType}-${p.id}`);
+                        setMoving(false);
+                    }}
                 >
-                    <div id={`${p.pipeType}-${p.id}`} className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}${i === getIndex(selected) ? ' selected' : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
+                    <div id={`${p.pipeType}-${p.id}`} className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}${i === getIndex(selected) ? ' selected' : ''}${!moving ? ' still' : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
                         {p.pipeType === 90 ? (
                             <>
                                 <span />
