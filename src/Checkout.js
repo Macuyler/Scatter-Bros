@@ -1,8 +1,27 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import { Paper, Typography, TextField } from "@material-ui/core";
+import { Paper, Typography, TextField, Button } from "@material-ui/core";
 
 class Checkout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      fName: '',
+      lName: '',
+      email: '',
+      address: '',
+      city: '',
+      state: '',
+      zip: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('Submitting...', this.state);
+  }
+
   render() {
     const carts = this.props.location.state;
 
@@ -43,7 +62,7 @@ class Checkout extends Component {
       carts.parts.forEach(item => {
         subtotal += item.quantity;
       });
-      return toCurrency(subtotal);
+      return subtotal;
     };
 
     const toCurrency = amount => {
@@ -91,14 +110,30 @@ class Checkout extends Component {
         <div className="checkout-rightContent">
           <Paper>
             <div className="item-subtotal">
-              <Typography variant="h5" component="h3">
+              <Typography variant="h6" component="h3">
                 Subtotal
               </Typography>
-              <Typography variant="h5" component="h3">
-                {getSubtotal()}
+              <Typography variant="h6" component="h3">
+                {toCurrency(getSubtotal())}
               </Typography>
             </div>
-            <form className="checkout-form">
+            <div className="item-subtotal" style={{ paddingTop: 0, color: '#a9a9a9' }}>
+              <Typography variant="h6" component="h3">
+                Shipping
+              </Typography>
+              <Typography variant="h6" component="h3">
+                $5.00
+              </Typography>
+            </div>
+            <div className="item-subtotal" style={{ paddingTop: 10 }}>
+              <Typography variant="h5" component="h3">
+                Grand Total
+              </Typography>
+              <Typography variant="h5" component="h3">
+                {toCurrency(getSubtotal() + 10)}
+              </Typography>
+            </div>
+            <form className="checkout-form" onSubmit={this.handleSubmit}>
               <div className="defaultFlex">
                 <div className="text-field-left">
                   <TextField
@@ -108,6 +143,8 @@ class Checkout extends Component {
                     label="First Name"
                     margin="normal"
                     variant="outlined"
+                    value={this.state.fName}
+                    onChange={e => this.setState({ fName: e.target.value })}
                   />
                 </div>
                 <div className="text-field-right">
@@ -118,6 +155,8 @@ class Checkout extends Component {
                     label="Last Name"
                     margin="normal"
                     variant="outlined"
+                    value={this.state.lName}
+                    onChange={e => this.setState({ lName: e.target.value })}
                   />
                 </div>
               </div>
@@ -128,6 +167,9 @@ class Checkout extends Component {
                 label="Email"
                 margin="normal"
                 variant="outlined"
+                color="secondary"
+                value={this.state.email}
+                onChange={e => this.setState({ email: e.target.value })}
               />
               <TextField
                 fullWidth
@@ -136,6 +178,8 @@ class Checkout extends Component {
                 label="Shipping Address"
                 margin="normal"
                 variant="outlined"
+                value={this.state.address}
+                onChange={e => this.setState({ address: e.target.value })}
               />
               <div className="defaultFlex">
                 <div className="text-field-left">
@@ -146,6 +190,9 @@ class Checkout extends Component {
                     label="City"
                     margin="normal"
                     variant="outlined"
+                    color="secondary"
+                    value={this.state.city}
+                    onChange={e => this.setState({ city: e.target.value })}
                   />
                 </div>
                 <div className="text-field-center">
@@ -155,7 +202,10 @@ class Checkout extends Component {
                     className="textField"
                     label="State"
                     margin="normal"
+                    color="secondary"
                     variant="outlined"
+                    value={this.state.state}
+                    onChange={e => this.setState({ state: e.target.value })}
                   />
                 </div>
                 <div className="text-field-right">
@@ -165,10 +215,14 @@ class Checkout extends Component {
                     className="textField"
                     label="Zip Code"
                     margin="normal"
+                    color="secondary"
                     variant="outlined"
+                    value={this.state.zip}
+                    onChange={e => this.setState({ zip: e.target.value })}
                   />
                 </div>
               </div>
+              <Button type="submit" style={{ width: '40%', marginTop: 16, marginLeft: '30%' }} variant="contained" color="primary">Submit</Button>
             </form>
           </Paper>
         </div>
