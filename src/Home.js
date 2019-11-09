@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router";
-import { Typography, Button, MuiThemeProvider } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import boys from "./assets/boys.png";
 import logo from "./assets/logo.svg";
 
@@ -9,7 +9,7 @@ const Home = () => {
   return (
     <div className="home-page-wrapper">
       <div className="blue-background" />
-      <img className="boys" src={boys} />
+      <img className="boys" src={boys} alt="boys" />
       <div className="home-left-content">
         <h1 className="home-heading">Design your own marshmallow shooter</h1>
         <p>No Tools. No trips to the store.</p>
@@ -26,7 +26,7 @@ const Home = () => {
         {go ? <Redirect to="/edit" /> : null}
       </div>
       <div className="home-right-content">
-        <img className="home-logo" src={logo} />
+        <img className="home-logo" src={logo} alt="logo" />
         <div className="home-description">
           <p>Founded by Carter.</p>
           <p> Him and his brother Easton </p>
