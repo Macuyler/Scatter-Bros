@@ -257,8 +257,8 @@ const Editor = () => {
                 </Draggable>
             ))}
             <Modal
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
+                aria-labelledby="Name Prompt"
+                aria-describedby="Enter a name for your new Launcher"
                 open={showModal}
                 onClose={() => setShowModal(false)}
                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}

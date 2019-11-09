@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import { Link } from 'react-router-dom';
 import { Redirect } from "react-router";
-import { Paper, Typography, TextField, Button } from "@material-ui/core";
+import { Paper, Typography, TextField, Button, Modal } from "@material-ui/core";
 
 class Checkout extends Component {
   constructor(props) {
@@ -12,7 +13,8 @@ class Checkout extends Component {
       address: '',
       city: '',
       state: '',
-      zip: ''
+      zip: '',
+      showModal: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,7 +27,7 @@ class Checkout extends Component {
       .collection('purchases')
       .doc()
       .set({ fName, lName, email, address, city, state, zip, parts, name })
-      .then(() => console.log('Done...'))
+      .then(() => this.setState({ showModal: true }))
       .catch(err => console.log(err));
   }
 
@@ -233,6 +235,20 @@ class Checkout extends Component {
             </form>
           </Paper>
         </div>
+        <Modal
+          aria-labelledby="Successfully Placed your Order"
+          aria-describedby="Your Purchase will be processed and shipped within 3-5 business days."
+          open={this.state.showModal}
+          onClose={() => this.setState({ showModal: false })}
+          style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+          disableAutoFocus
+        >
+          <Paper style={{ width: '50%', height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
+            <h1 style={{ textAlign: 'center', marginTop: 60 }}>Successfully Placed your Order</h1>
+            <p style={{ textAlign: 'center', marginTop: 0 }}>Your Purchase will be processed and shipped within 3-5 business days.</p>
+            <Button style={{ width: '30%', marginTop: 10 }} variant="contained" color="secondary"><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Return to HomePage</Link></Button>
+          </Paper>
+        </Modal>
         {!carts || (carts && carts.parts.length === 0) ? <Redirect to={{ pathname: "/edit" }} /> : null}
       </div>
     );
