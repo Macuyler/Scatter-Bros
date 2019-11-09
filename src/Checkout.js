@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { Paper, Typography, TextField } from "@material-ui/core";
-import cartData from "./data";
 
 class Checkout extends Component {
   render() {
@@ -41,7 +40,7 @@ class Checkout extends Component {
 
     const getSubtotal = () => {
       let subtotal = 0;
-      carts.parts.map(item => {
+      carts.parts.forEach(item => {
         subtotal += item.quantity;
       });
       return toCurrency(subtotal);
@@ -73,7 +72,7 @@ class Checkout extends Component {
                     <div key={item.pipeType} className="cart-item">
                       <div className="cart-item-details">
                         <div className="cart-item-image-wrapper">
-                          <img src={getPipeImage(item.pipeType)} />
+                          <img src={getPipeImage(item.pipeType)} alt="pipe" />
                         </div>
                         <p className="cart-item-name">{getPipeName(item.pipeType)}</p>
                       </div>
@@ -84,6 +83,7 @@ class Checkout extends Component {
                     </div>
                   );
                 }
+                return null;
               })}
             </div>
           </Paper>
