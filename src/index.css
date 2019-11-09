@@ -1,6 +1,6 @@
 :root {
   --connected: #64D412;
-  --disconnected: #D42A12;
+  --disconnected: rgba(219, 34, 42, 1);
   --inch: 60px;
   --height: 52px;
   --color1: rgba(13, 59, 102, 1);
@@ -47,7 +47,7 @@ body {
   position: absolute;
 }
 .pipe1.selected, .pipe2.selected, .pipe3.selected, .pipe5.selected, .pipe7.selected, .pipecap.selected, .pipecon.selected {
-  outline: 2px solid rgba(26, 141, 235, 0.4);
+  outline: 2px solid var(--color4);
 }
 
 .pipe1 {

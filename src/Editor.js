@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router';
 import Draggable from 'react-draggable';
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider, Modal, Paper, TextField } from '@material-ui/core';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
 import DeleteIcon from '@material-ui/icons/Delete';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import clsx from 'clsx';
 import { connectors } from './globals.js';
 
@@ -74,10 +75,12 @@ const useStyles = makeStyles(theme => ({
 
 const Editor = () => {
     const [showDrawer, setShowDrawer] = useState(true);
+    const [showModal, setShowModal] = useState(false);
     const [pipes, setPipes] = useState([]);
     const [selected, setSelected] = useState({ id: 1, pipeType: 1, rot: 1 });
     const [goToCheckout, setGoToCheckout] = useState(false);
     const [checkoutData, setCheckoutData] = useState([]);
+    const [name, setName] = useState('');
 
     const getIndex = (s) => pipes.indexOf(pipes.find(e => e.id === s.id));
 
@@ -162,7 +165,7 @@ const Editor = () => {
                     <Typography variant="h6" noWrap>
                         Scatter Bros
                     </Typography>
-                    <Button onClick={checkout} color="inherit">Purchase</Button>
+                    <Button onClick={() => setShowModal(true)} color="inherit"><ShoppingCartIcon style={{ marginRight: 8 }} />Purchase</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
@@ -252,7 +255,24 @@ const Editor = () => {
                     </div>
                 </Draggable>
             ))}
-            {goToCheckout ? <Redirect to={{ pathname: "/checkout", state: { parts: checkoutData, name: '' } }} /> : null}
+            <Modal
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+                open={showModal}
+                onClose={() => setShowModal(false)}
+                style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                disableAutoFocus
+            >
+                <Paper style={{ width: '50%', height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <h1 style={{ textAlign: 'center', marginTop: 60 }}>Enter a name for your Marshmallow launcher</h1>
+                    <TextField style={{ width: '60%' }} variant="outlined" color="secondary" value={name} onChange={e => setName(e.target.value)} label="Name" />
+                    <div style={{ marginTop: 20, width: '50%', display: 'flex', justifyContent: 'space-around' }}>
+                        <Button onClick={() => setShowModal(false)}>Cancel</Button>
+                        <Button variant="contained" color="primary" onClick={checkout}>Submit</Button>
+                    </div>
+                </Paper>
+            </Modal>
+            {goToCheckout ? <Redirect to={{ pathname: "/checkout", state: { parts: checkoutData, name } }} /> : null}
         </div>
     );
 };

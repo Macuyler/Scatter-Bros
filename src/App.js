@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import { Typography, Button, MuiThemeProvider } from '@material-ui/core';
 import Editor from './Editor';
 import Checkout from './Checkout';
 import Admin from './Admin';
-import { Typography, Button } from '@material-ui/core';
+import theme from './theme'
 
 const Home = () => {
   const [ go, setGo ] = useState(false);
@@ -20,16 +21,18 @@ const Home = () => {
 
 function App() {
   return (
-    <div className="app-wrapper">
-      <Router>
-        <Switch>
-          <Route path="/edit" component={Editor} />
-          <Route path="/checkout" component={Checkout} />
-          <Route path="/admin" component={Admin} />
-          <Route path="/" component={Home} />
-        </Switch>
-      </Router>
-    </div>
+    <MuiThemeProvider theme={theme}>
+      <div className="app-wrapper">
+        <Router>
+          <Switch>
+            <Route path="/edit" component={Editor} />
+            <Route path="/checkout" component={Checkout} />
+            <Route path="/admin" component={Admin} />
+            <Route path="/" component={Home} />
+          </Switch>
+        </Router>
+      </div>
+    </MuiThemeProvider>
   );
 }
 
