@@ -1,0 +1,73 @@
+.home-page-wrapper {
+  height: 100vh;
+  background-color: white;
+  display: flex;
+  position: relative;
+}
+
+.home-left-content {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 100px;
+}
+
+.home-left-content p {
+  margin: 0;
+  line-height: 45px;
+  font-size: 35px;
+}
+
+.home-heading {
+  margin: 0;
+  font-family: "Luckiest Guy", cursive;
+  font-size: 60px;
+  color: rgba(219, 34, 42, 1);
+}
+
+.home-right-content {
+  position: relative;
+  z-index: 10;
+  width: 50%;
+  margin-left: 100px;
+}
+
+.home-logo {
+  position: relative;
+  left: 145px;
+  width: 530px;
+  top: 100px;
+}
+
+.home-description {
+  position: relative;
+  top: 40%;
+  left: 55px;
+}
+
+.home-right-content p {
+  margin: 0;
+  line-height: 36px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.blue-background {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: url("./assets/blue-svg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50%;
+  height: 100vh;
+}
+
+.boys {
+  position: absolute;
+  bottom: 0;
+  left: calc(50% - 110px);
+  width: 545px;
+  height: auto;
+}
