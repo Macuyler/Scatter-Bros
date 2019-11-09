@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { Typography, Button, MuiThemeProvider } from '@material-ui/core';
+import firebase from './firebase';
+import 'firebase/firebase-firestore';
 import Editor from './Editor';
 import Checkout from './Checkout';
 import Admin from './Admin';
-import theme from './theme'
+import theme from './theme';
+
+const db = firebase().firestore();
 
 const Home = () => {
   const [ go, setGo ] = useState(false);
@@ -19,21 +23,19 @@ const Home = () => {
   );
 };
 
-function App() {
-  return (
-    <MuiThemeProvider theme={theme}>
-      <div className="app-wrapper">
-        <Router>
-          <Switch>
-            <Route path="/edit" component={Editor} />
-            <Route path="/checkout" component={Checkout} />
-            <Route path="/admin" component={Admin} />
-            <Route path="/" component={Home} />
-          </Switch>
-        </Router>
-      </div>
-    </MuiThemeProvider>
-  );
-}
+const App = () => (
+  <MuiThemeProvider theme={theme}>
+    <div className="app-wrapper">
+      <Router>
+        <Switch>
+          <Route path="/edit" component={Editor} />
+          <Route path="/checkout" component={(props) => <Checkout db={db} {...props} />} />
+          <Route path="/admin" component={(props) => <Admin db={db} {...props} />} />
+          <Route path="/" component={Home} />
+        </Switch>
+      </Router>
+    </div>
+  </MuiThemeProvider>
+);
 
 export default App;

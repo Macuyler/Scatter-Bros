@@ -19,7 +19,14 @@ class Checkout extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('Submitting...', this.state);
+    const { parts, name } = this.props.location.state;
+    const { fName, lName, email, address, city, state, zip } = this.state;
+    this.props.db
+      .collection('purchases')
+      .doc()
+      .set({ fName, lName, email, address, city, state, zip, parts, name })
+      .then(() => console.log('Done...'))
+      .catch(err => console.log(err));
   }
 
   render() {
