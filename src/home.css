@@ -17,6 +17,8 @@
   margin: 0;
   line-height: 45px;
   font-size: 35px;
+  font-family: 'Roboto';
+  font-weight: lighter;
 }
 
 .home-heading {
@@ -51,6 +53,8 @@
   line-height: 36px;
   font-size: 30px;
   text-align: center;
+  font-family: 'Roboto';
+  font-weight: lighter;
 }
 
 .blue-background {
