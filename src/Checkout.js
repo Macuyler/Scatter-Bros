@@ -155,7 +155,7 @@ class Checkout extends Component {
           this.props.db
             .collection('purchases')
             .doc()
-            .set({ fName, lName, email, address, city, state, zip, parts, name })
+            .set({ fName, lName, email, address, city, state, zip, parts, name, dateSubmitted: Date.now() })
             .then(() => this.setState({ showModal: true }))
             .catch(err => console.log(err));
         } else {

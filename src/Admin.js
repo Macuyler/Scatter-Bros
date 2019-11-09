@@ -43,10 +43,22 @@ const Admin = (props) => {
   };
 
   const toCurrency = amount => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(amount);
+  const toDate = time => {
+    const date = new Date(time)
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+  };
+
+  const fullfill = p => {
+    p.ref.update({ fullfilled: true }).then(() => {
+      props.db.collection('purchases').get().then(pDocs => {
+        setPurchases(pDocs.docs.map(p => ({ ...p.data(), id: p.id, ref: p.ref })))
+      });
+    })
+  };
 
   return (
     <div className="admin-page-wrapper">
-      {purchases.map((purchase, i) => (
+      {purchases.map((purchase, i) => purchase.fullfilled ? null : (
         <ExpansionPanel key={i}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
             <div className="expansion-summary">
@@ -54,7 +66,7 @@ const Admin = (props) => {
                 {purchase.email}
             </Typography>
               <Typography variant="h6" component="h4">
-                {purchase.dateSubmitted}
+                {toDate(purchase.dateSubmitted)}
             </Typography>
               <Typography variant="h6" component="h4">
                 {toCurrency(getPrice(purchase.parts))}
@@ -82,6 +94,7 @@ const Admin = (props) => {
               </div>
             ))}
             <Button
+              onClick={() => fullfill(purchase)}
               type="submit"
               style={{ width: "40%", margin: "30px 0 15px", marginLeft: "30%" }}
               variant="contained"
