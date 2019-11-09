@@ -229,7 +229,7 @@ const Editor = () => {
             {pipes.map((p, i) => (
                 <Draggable
                     key={p.id}
-                    defaultPosition={{ x: 520, y: 104 * 5 }}
+                    defaultPosition={{ x: 520, y: 104 }}
                     grid={[52, 52]}
                     scale={1}
                     onStart={() => {
