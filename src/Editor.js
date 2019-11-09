@@ -23,6 +23,7 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
         }),
+        backgroundColor: 'rgba(219, 34, 42, 1)',
         flexDirection: 'row',
         alignItems: 'space-between'
     },
@@ -46,7 +47,7 @@ const useStyles = makeStyles(theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        backgroundColor: '#5e5e5e'
+        backgroundColor: '#6C6C6C'
     },
     drawerHeader: {
         display: 'flex',
@@ -164,7 +165,7 @@ const Editor = () => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" noWrap>
-                        Scatter Bros
+                        Scatter Bros Creator
                     </Typography>
                     <Button onClick={() => setShowModal(true)} color="inherit"><ShoppingCartIcon style={{ marginRight: 8 }} />Purchase</Button>
                 </Toolbar>
@@ -179,7 +180,7 @@ const Editor = () => {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <Typography variant="h6" style={{ marginLeft: 15 }} color="primary">Select a Part:</Typography>
+                    <Typography variant="h6" style={{ marginLeft: 15, color: '#fff' }}>Select a Part:</Typography>
                     <IconButton onClick={() => setShowDrawer(false)}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>

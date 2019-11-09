@@ -263,7 +263,7 @@ class Checkout extends Component {
             </div>
             <div className="item-subtotal" style={{ paddingTop: 0, color: "#a9a9a9" }}>
               <Typography variant="h6" component="h3">
-                Shipping
+                Shipping <span style={{ fontSize: '0.75rem', marginLeft: 10 }}>($5.00 flat rate shipping anywhere in the US)</span>
               </Typography>
               <Typography variant="h6" component="h3">
                 $5.00
@@ -291,9 +291,9 @@ class Checkout extends Component {
           disableAutoFocus
         >
           <Paper style={{ width: '50%', height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h1 style={{ textAlign: 'center', marginTop: 60 }}>Successfully Placed your Order</h1>
+            <h1 style={{ textAlign: 'center' }}>Successfully Placed your Order</h1>
             <p style={{ textAlign: 'center', marginTop: 0 }}>Your Purchase will be processed and shipped within 3-5 business days.</p>
-            <Button style={{ width: '30%', marginTop: 10 }} variant="contained" color="secondary"><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Return to HomePage</Link></Button>
+            <Button style={{ width: '30%', marginTop: 10 }} variant="contained" color="primary"><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Return to HomePage</Link></Button>
           </Paper>
         </Modal>
         {!carts || (carts && carts.parts.length === 0) ? <Redirect to={{ pathname: "/edit" }} /> : null}
