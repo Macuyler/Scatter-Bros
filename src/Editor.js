@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
-import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab, Button, Divider } from '@material-ui/core';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
 import DeleteIcon from '@material-ui/icons/Delete';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import clsx from 'clsx';
 import { connectors } from './globals.js';
 
 const drawerWidth = 480;
@@ -131,6 +130,7 @@ const Editor = () => {
                     <Typography variant="h6" noWrap>
                         Scatter Bros
                     </Typography>
+                    <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
             <Drawer
