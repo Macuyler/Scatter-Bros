@@ -3,16 +3,15 @@ import Draggable from 'react-draggable';
 import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import RotateRightIcon from '@material-ui/icons/RotateRight';
-import { connectors } from './globals.js';
-
-
+import DeleteIcon from '@material-ui/icons/Delete';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import { connectors } from './globals.js';
 
-const drawerWidth = 440;
+const drawerWidth = 480;
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -88,6 +87,16 @@ const Editor = () => {
         }
     };
 
+    const deleteSelected = () => {
+        if (selected) {
+            const s = getIndex(selected);
+            selected.rot += 1;
+            selected.rot %= 4;
+            pipes.splice(s, 1);
+            setPipes([...pipes]);
+        }
+    }
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -134,42 +143,45 @@ const Editor = () => {
                 </div>
                 <Divider />
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 2, rot: 0 }])}>
-                    <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                    <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 3, rot: 0 }])}>
-                    <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                    <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 5, rot: 0 }])}>
-                    <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                    <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 7, rot: 0 }])}>
-                    <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                    <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 90, rot: 0 }])}>
                     <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
-                        <span />
-                        <span />
-                        <span />
-                        <span />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
                     </div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 't', rot: 0 }])}>
                     <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
-                        <span />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
+                        <span style={{ border: 'none' }} />
                     </div>
                 </button>
                 <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 'cap', rot: 0 }])}>
-                    <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                    <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
             </Drawer>
 
             <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
                 <RotateRightIcon />
+            </Fab>
+            <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'absolute', bottom: 30, right: 110 }}>
+                <DeleteIcon />
             </Fab>
             {pipes.map(p => (
                 <Draggable
