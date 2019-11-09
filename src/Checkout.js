@@ -6,20 +6,20 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fName: '',
-      lName: '',
-      email: '',
-      address: '',
-      city: '',
-      state: '',
-      zip: ''
+      fName: "",
+      lName: "",
+      email: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: ""
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('Submitting...', this.state);
+    console.log("Submitting...", this.state);
   }
 
   render() {
@@ -117,7 +117,7 @@ class Checkout extends Component {
                 {toCurrency(getSubtotal())}
               </Typography>
             </div>
-            <div className="item-subtotal" style={{ paddingTop: 0, color: '#a9a9a9' }}>
+            <div className="item-subtotal" style={{ paddingTop: 0, color: "#a9a9a9" }}>
               <Typography variant="h6" component="h3">
                 Shipping
               </Typography>
@@ -134,7 +134,7 @@ class Checkout extends Component {
               </Typography>
             </div>
             <form className="checkout-form" onSubmit={this.handleSubmit}>
-              <div className="defaultFlex">
+              <div className="default-flex">
                 <div className="text-field-left">
                   <TextField
                     fullWidth
@@ -222,7 +222,14 @@ class Checkout extends Component {
                   />
                 </div>
               </div>
-              <Button type="submit" style={{ width: '40%', marginTop: 16, marginLeft: '30%' }} variant="contained" color="primary">Submit</Button>
+              <Button
+                type="submit"
+                style={{ width: "40%", marginTop: 16, marginLeft: "30%" }}
+                variant="contained"
+                color="primary"
+              >
+                Submit
+              </Button>
             </form>
           </Paper>
         </div>
