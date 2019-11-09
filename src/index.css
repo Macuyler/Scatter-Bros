@@ -46,7 +46,7 @@ body {
   cursor: pointer;
   position: absolute;
 }
-.pipe1.still, .pipe2.still, .pipe3.still, .pipe5.still, .pipe7.still, .pipecap.still {
+.pipe1.still, .pipe2.still, .pipe3.still, .pipe5.still, .pipe7.still, .pipecap.still, .pipecon.still {
   border: none !important;
 }
 
@@ -401,6 +401,30 @@ body {
 }
 .pipecap.rot1 { border-bottom: 2px solid var(--disconnected); background-image: url('./assets/pipes/cap.png'); }
 .pipecap.rot3 { margin-top: calc(var(--height) / 3); border-top: 2px solid var(--disconnected); background-image: url('./assets/pipes/cap-rot2.png'); }
+
+.pipecon, .pipecon.rot2 {
+  width: calc(var(--inch) * 1.6);
+  height: calc(var(--height) + 8px);
+  margin-top: -4px;
+  margin-left: calc(var(--inch) * -0.3);
+  background-image: url('./assets/pipes/coupler.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-left: 2px solid var(--disconnected);
+  border-right: 2px solid var(--disconnected);
+}
+
+.pipecon.rot1, .pipecon.rot3 {
+  width: calc(var(--height) + 8px);
+  height: calc(var(--inch) * 1.6);
+  border-top: 2px solid var(--disconnected);
+  border-bottom: 2px solid var(--disconnected);
+  border-left: none;
+  border-right: none;
+  margin-top: calc(var(--inch) * -0.3);
+  margin-left: -4px;
+  background-image: url('./assets/pipes/coupler-rot.png');
+}
 
 button.blank {
   background: none;

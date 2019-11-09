@@ -219,6 +219,9 @@ const Editor = () => {
                 <button className="blank" onClick={() => addPipe('cap', 3)}>
                     <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
+                <button className="blank" onClick={() => addPipe('con')}>
+                    <div className="pipecon still" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
             </Drawer>
 
             <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
