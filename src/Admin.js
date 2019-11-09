@@ -58,6 +58,7 @@ const Admin = (props) => {
 
   return (
     <div className="admin-page-wrapper">
+      <Typography variant="h3" style={{ color: "#fff", marginBottom: 12 }}>Scatter Bros Administration</Typography>
       {purchases.map((purchase, i) => purchase.fullfilled ? null : (
         <ExpansionPanel key={i}>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />} aria-controls="panel1a-content" id="panel1a-header">
