@@ -96,8 +96,8 @@ const Editor = () => {
         }
     };
 
-    const addPipe = (pipeType) => {
-        const p = { id: Math.floor(Math.random() * 2000), pipeType, rot: 0 };
+    const addPipe = (pipeType, custoRot) => {
+        const p = { id: Math.floor(Math.random() * 2000), pipeType, rot: custoRot || 0 };
         setPipes([...pipes, p]);
         setSelected(p);
     };
@@ -216,7 +216,7 @@ const Editor = () => {
                         <span style={{ border: 'none' }} />
                     </div>
                 </button>
-                <button className="blank" onClick={() => addPipe('cap')}>
+                <button className="blank" onClick={() => addPipe('cap', 3)}>
                     <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
                 </button>
             </Drawer>
