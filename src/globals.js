@@ -29,6 +29,11 @@ export const pipe90 = {
     height: 2 * height
 };
 
+export const pipet = {
+    width: 3 * height,
+    height: 2 * height
+};
+
 export const pipecap = {
     width: height * 2 / 3,
     height

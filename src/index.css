@@ -3,6 +3,11 @@
   --disconnected: #D42A12;
   --inch: 60px;
   --height: 52px;
+  --color1: rgba(13, 59, 102, 1);
+  --color2: rgba(246, 81, 29, 1);
+  --color3: rgba(0, 1, 3, 1);
+  --color4: rgba(244, 216, 205, 1);
+  --color5: rgba(219, 34, 42, 1);
 }
 
 html {

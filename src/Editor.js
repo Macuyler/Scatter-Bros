@@ -122,6 +122,18 @@ const Editor = () => {
         setGoToCheckout(true);
     };
 
+    const handleDrop = (id) => {
+        const t = document.getElementById(id).style.transform;
+        if (t) {
+            const x = Number(t.split('(')[1].split('px')[0]);
+            const y = Number(t.split(',')[1].split('px')[0]);
+            const i = getIndex(selected);
+            pipes[i].x = x;
+            pipes[i].y = y;
+            setPipes([...pipes]);
+        }
+    };
+
     const classes = useStyles();
     const theme = useTheme();
 
@@ -216,9 +228,9 @@ const Editor = () => {
                     grid={[52, 52]}
                     scale={1}
                     onStart={() => setSelected(p)}
-                    onStop={e => console.log(e)}
+                    onStop={() => handleDrop(`${p.pipeType}-${p.id}`)}
                 >
-                    <div className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}${i === getIndex(selected) ? ' selected' : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
+                    <div id={`${p.pipeType}-${p.id}`} className={`pipe${p.pipeType}${p.rot ? ` rot${p.rot}` : ''}${i === getIndex(selected) ? ' selected' : ''}`} style={{ zIndex: connectors.includes(p.pipeType) ? 5 : 3 }}>
                         {p.pipeType === 90 ? (
                             <>
                                 <span />
