@@ -1,18 +1,79 @@
 import React, { useState } from 'react';
 import Draggable from 'react-draggable';
+import { AppBar, Toolbar, IconButton, Typography, Drawer, Fab } from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import RotateRightIcon from '@material-ui/icons/RotateRight';
 import { connectors } from './globals.js';
 
+
+import clsx from 'clsx';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
+import Divider from '@material-ui/core/Divider';
+import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+
+const drawerWidth = 440;
+
+const useStyles = makeStyles(theme => ({
+    root: {
+        display: 'flex',
+    },
+    appBar: {
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+    },
+    appBarShift: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth,
+        transition: theme.transitions.create(['margin', 'width'], {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    hide: {
+        display: 'none',
+    },
+    drawer: {
+        width: drawerWidth,
+        flexShrink: 0,
+    },
+    drawerPaper: {
+        width: drawerWidth,
+        backgroundColor: '#5e5e5e'
+    },
+    drawerHeader: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: theme.spacing(0, 1),
+        ...theme.mixins.toolbar,
+        justifyContent: 'flex-end',
+    },
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.leavingScreen,
+        }),
+        marginLeft: -drawerWidth,
+    },
+    contentShift: {
+        transition: theme.transitions.create('margin', {
+            easing: theme.transitions.easing.easeOut,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+        marginLeft: 0,
+    },
+}));
+
 const Editor = () => {
-    const [pipes, setPipes] = useState([
-        { id: 2, pipeType: 2, rot: 0 },
-        { id: 3, pipeType: 3, rot: 0 },
-        { id: 4, pipeType: 5, rot: 0 },
-        { id: 5, pipeType: 7, rot: 0 },
-        { id: 6, pipeType: 90, rot: 0 },
-        { id: 7, pipeType: 't', rot: 0 },
-        { id: 8, pipeType: 'cap', rot: 0 },
-        { id: 9, pipeType: 'con', rot: 0 },
-    ]);
+    const [showDrawer, setShowDrawer] = useState(false);
+    const [pipes, setPipes] = useState([]);
     const [selected, setSelected] = useState({ id: 1, pipeType: 1, rot: 1 });
 
     const getIndex = (s) => pipes.indexOf(pipes.find(e => e.id === s.id));
@@ -27,16 +88,93 @@ const Editor = () => {
         }
     };
 
+    const classes = useStyles();
+    const theme = useTheme();
+
     return (
         <div className="page-wrapper" style={{
             backgroundColor: '#2e2e2e',
             overflow: 'hidden'
         }}>
-            <button onClick={rotate}>Rotate</button>
+
+            <AppBar
+                position="fixed"
+                className={clsx(classes.appBar, {
+                    [classes.appBarShift]: showDrawer,
+                })}
+            >
+                <Toolbar>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        onClick={() => setShowDrawer(true)}
+                        edge="start"
+                        className={clsx(classes.menuButton, showDrawer && classes.hide)}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" noWrap>
+                        Scatter Bros
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Drawer
+                className={classes.drawer}
+                variant="persistent"
+                anchor="left"
+                open={showDrawer}
+                classes={{
+                    paper: classes.drawerPaper,
+                }}
+            >
+                <div className={classes.drawerHeader}>
+                    <IconButton onClick={() => setShowDrawer(false)}>
+                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </div>
+                <Divider />
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 2, rot: 0 }])}>
+                    <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 3, rot: 0 }])}>
+                    <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 5, rot: 0 }])}>
+                    <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 7, rot: 0 }])}>
+                    <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 90, rot: 0 }])}>
+                    <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                    </div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 't', rot: 0 }])}>
+                    <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                        <span />
+                    </div>
+                </button>
+                <button className="blank" onClick={() => setPipes([...pipes, { id: Math.floor(Math.random() * 2000), pipeType: 'cap', rot: 0 }])}>
+                    <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                </button>
+            </Drawer>
+
+            <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
+                <RotateRightIcon />
+            </Fab>
             {pipes.map(p => (
                 <Draggable
                     key={p.id}
-                    defaultPosition={{ x: 0, y: 104 * p.id }}
+                    defaultPosition={{ x: 520, y: 104 * 5 }}
                     grid={[52, 52]}
                     scale={1}
                     onStart={() => setSelected(p)}

@@ -129,7 +129,7 @@ body {
   height: calc(var(--height) + 2px);
   display: block;
   box-sizing: border-box;
-  cursor: default;
+  cursor: pointer;
 }
 .pipe90 > span:nth-child(1) {
   height: calc(var(--height) + 8px);
@@ -361,3 +361,9 @@ body {
 }
 .pipecap.rot1 { border-bottom: 2px solid var(--disconnected); }
 .pipecap.rot3 { margin-top: calc(var(--height) / 3); border-top: 2px solid var(--disconnected); }
+
+button.blank {
+  background: none;
+  outline: none;
+  border: none;
+}
