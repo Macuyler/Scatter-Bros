@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         padding: theme.spacing(0, 1),
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end',
+        justifyContent: 'space-between',
     },
     content: {
         flexGrow: 1,
@@ -178,6 +178,7 @@ const Editor = () => {
                 }}
             >
                 <div className={classes.drawerHeader}>
+                    <Typography variant="h6" style={{ marginLeft: 15 }} color="primary">Select a Part:</Typography>
                     <IconButton onClick={() => setShowDrawer(false)}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
