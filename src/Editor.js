@@ -157,9 +157,7 @@ const Editor = () => {
     return (
         <div className="page-wrapper" style={{
             backgroundColor: '#2e2e2e',
-            overflow: 'hidden'
         }}>
-
             <AppBar
                 position="fixed"
                 className={clsx(classes.appBar, {
@@ -254,12 +252,12 @@ const Editor = () => {
             </Drawer>
 
             <Tooltip title="Rotate" placement="top">
-                <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'absolute', bottom: 30, right: 30 }}>
+                <Fab onClick={rotate} color="primary" aria-label="Rotate" style={{ position: 'fixed', bottom: 30, right: 30, zIndex: 8 }}>
                     <RotateRightIcon />
                 </Fab>
             </Tooltip>
             <Tooltip title="Delete" placement="top">
-                <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'absolute', bottom: 30, right: 110 }}>
+                <Fab onClick={deleteSelected} color="secondary" aria-label="Delete" size="medium" style={{ position: 'fixed', bottom: 30, right: 110, zIndex: 8 }}>
                     <DeleteIcon />
                 </Fab>
             </Tooltip>
