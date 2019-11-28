@@ -48,7 +48,9 @@ const useStyles = makeStyles(theme => ({
     },
     drawerPaper: {
         width: drawerWidth,
-        backgroundColor: '#6C6C6C'
+        backgroundColor: '#6C6C6C',
+        display: 'flex',
+        justifyContent: 'space-between'
     },
     drawerHeader: {
         display: 'flex',
@@ -57,22 +59,25 @@ const useStyles = makeStyles(theme => ({
         ...theme.mixins.toolbar,
         justifyContent: 'space-between',
     },
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.leavingScreen,
-        }),
-        marginLeft: -drawerWidth,
+    drawerContent: {
+        display: 'flex',
+        flexDirection: 'column'
     },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen,
-        }),
-        marginLeft: 0,
+    innerContent: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        width: '80%',
+        margin: '0 6%'
     },
+    section: {
+        color: '#fafafa',
+        fontSize: '1.5rem',
+        margin: '0 22px',
+        fontWeight: 200,
+    }
 }));
 
 const Editor = () => {
@@ -189,66 +194,75 @@ const Editor = () => {
                     paper: classes.drawerPaper,
                 }}
             >
-                <div className={classes.drawerHeader}>
-                    <Typography variant="h6" style={{ marginLeft: 15, color: '#fff' }}>Select a Part:</Typography>
-                    <IconButton onClick={() => setShowDrawer(false)}>
-                        {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                    </IconButton>
+                <div>
+                    <div className={classes.drawerHeader}>
+                        <Typography variant="h6" style={{ marginLeft: 15, color: '#fff' }}>Select a Part:</Typography>
+                        <IconButton onClick={() => setShowDrawer(false)}>
+                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                        </IconButton>
+                    </div>
+                    <Divider />
+                    <div className={classes.drawerContent}>
+                        <h3 className={classes.section}>Pipes</h3>
+                        <Tooltip title="2 Inch Pipe" placement="right">
+                            <button className="blank" onClick={() => addPipe(2)}>
+                                <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
+                            </button>
+                        </Tooltip>
+                        <Tooltip title="3 Inch Pipe" placement="right">
+                            <button className="blank" onClick={() => addPipe(3)}>
+                                <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
+                            </button>
+                        </Tooltip>
+                        <Tooltip title="5 Inch Pipe" placement="right">
+                            <button className="blank" onClick={() => addPipe(5)}>
+                                <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
+                            </button>
+                        </Tooltip>
+                        <Tooltip title="7 Inch Pipe" placement="right">
+                            <button className="blank" onClick={() => addPipe(7)}>
+                                <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
+                            </button>
+                        </Tooltip>
+                        <Divider style={{ marginTop: 10 }} />
+                        <h3 className={classes.section}>Connectors</h3>
+                        <div className={classes.innerContent}>
+                            <Tooltip title="90deg Elbow" placement="right">
+                                <button className="blank" onClick={() => addPipe(90)}>
+                                    <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                    </div>
+                                </button>
+                            </Tooltip>
+                            <Tooltip title="T Connector" placement="right">
+                                <button className="blank" onClick={() => addPipe('t')}>
+                                    <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                        <span style={{ border: 'none' }} />
+                                    </div>
+                                </button>
+                            </Tooltip>
+                            <Tooltip title="Pipe Cap" placement="right">
+                                <button className="blank" onClick={() => addPipe('cap', 3)}>
+                                    <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
+                                </button>
+                            </Tooltip>
+                            <Tooltip title="Coupler (Connector)" placement="right">
+                                <button className="blank" onClick={() => addPipe('con')}>
+                                    <div className="pipecon still" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
+                                </button>
+                            </Tooltip>
+                        </div>
+                    </div>
                 </div>
-                <Divider />
-                <Tooltip title="2 Inch Pipe" placement="right">
-                <button className="blank" onClick={() => addPipe(2)}>
-                    <div className="pipe2" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
-                </button>
-                </Tooltip>
-                <Tooltip title="3 Inch Pipe" placement="right">
-                <button className="blank" onClick={() => addPipe(3)}>
-                    <div className="pipe3" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
-                </button>
-                </Tooltip>
-                <Tooltip title="5 Inch Pipe" placement="right">
-                <button className="blank" onClick={() => addPipe(5)}>
-                    <div className="pipe5" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
-                </button>
-                </Tooltip>
-                <Tooltip title="7 Inch Pipe" placement="right">
-                <button className="blank" onClick={() => addPipe(7)}>
-                    <div className="pipe7" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
-                </button>
-                </Tooltip>
-                <Tooltip title="90deg Elbow" placement="right">
-                <button className="blank" onClick={() => addPipe(90)}>
-                    <div className="pipe90" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                    </div>
-                </button>
-                </Tooltip>
-                <Tooltip title="T Connector" placement="right">
-                <button className="blank" onClick={() => addPipe('t')}>
-                    <div className="pipet" style={{ position: 'relative', margin: '10px 0 0 15px' }}>
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                        <span style={{ border: 'none' }} />
-                    </div>
-                </button>
-                </Tooltip>
-                <Tooltip title="Pipe Cap" placement="right">
-                <button className="blank" onClick={() => addPipe('cap', 3)}>
-                    <div className="pipecap" style={{ position: 'relative', margin: '10px 0 0 15px', border: 'none' }}></div>
-                </button>
-                </Tooltip>
-                <Tooltip title="Coupler (Connector)" placement="right">
-                <button className="blank" onClick={() => addPipe('con')}>
-                    <div className="pipecon still" style={{ position: 'relative', margin: '10px 0 0 15px' }}></div>
-                </button>
-                </Tooltip>
-                <Button style={{width: '80%', position: 'absolute', bottom: 30, left: '10%'}} variant="contained" color="secondary" onClick={loadTemp}>Load a Template</Button>
+                <Button style={{ width: '80%', justifySelf: 'flex-end', margin: '30px 10%' }} variant="contained" color="secondary" onClick={loadTemp}>Load a Template</Button>
             </Drawer>
 
             <Tooltip title="Rotate" placement="top">
