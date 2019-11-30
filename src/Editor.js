@@ -43,11 +43,13 @@ const useStyles = makeStyles(theme => ({
         display: 'none',
     },
     drawer: {
-        width: drawerWidth,
+        maxWidth: drawerWidth,
+        width: '100%',
         flexShrink: 0,
     },
     drawerPaper: {
-        width: drawerWidth,
+        maxWidth: drawerWidth,
+        width: '100%',
         backgroundColor: '#6C6C6C',
         display: 'flex',
         justifyContent: 'space-between'
@@ -320,7 +322,7 @@ const Editor = () => {
                 style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                 disableAutoFocus
             >
-                <Paper style={{ width: '50%', height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Paper style={{ width: '50%', minWidth: 380, height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <h1 style={{ textAlign: 'center', marginTop: 60 }}>Enter a name for your Marshmallow launcher</h1>
                     <TextField style={{ width: '60%' }} variant="outlined" color="secondary" value={name} onChange={e => setName(e.target.value)} label="Name" />
                     <div style={{ marginTop: 20, width: '50%', display: 'flex', justifyContent: 'space-around' }}>

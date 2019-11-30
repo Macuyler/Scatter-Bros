@@ -112,3 +112,13 @@
   margin-left: 5px;
   flex: 1;
 }
+
+@media only screen and (max-width: 1130px) {
+  .checkout-mainContent {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .checkout-leftContent, .checkout-rightContent {
+    min-width: 400px;
+  }
+}

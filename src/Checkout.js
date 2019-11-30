@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from 'react-router-dom';
 import { Redirect } from "react-router";
-import { Paper, Typography, TextField, Button, Modal } from "@material-ui/core";
+import { Paper, Typography, TextField, Button, Modal, CircularProgress } from "@material-ui/core";
 import { Elements, injectStripe, CardElement } from 'react-stripe-elements';
 
 class Form extends Component {
@@ -14,20 +14,45 @@ class Form extends Component {
       address: "",
       city: "",
       state: "",
-      zip: ""
+      zip: "",
+      isProcessing: false,
+      errors: {}
     };
     this.getToken = this.getToken.bind(this);
   }
 
   getToken = async (e) => {
     e.preventDefault();
-    const { token } = await this.props.stripe.createToken({ name: 'Name' });
-    this.props.handleSubmit(token, this.state);
+    const { errors } = this.state;
+    let inputIsValid = true;
+    ['fName', 'lName', 'email', 'address', 'city', 'state', 'zip'].forEach(field => {
+      if (this.state[field].length <= 0) {
+        inputIsValid = false;
+        errors[field] = 'Field cannot be blank';
+      } else delete errors[field];
+    });
+    if (inputIsValid) {
+      this.setState({ isProcessing: true });
+      const { token, error } = await this.props.stripe.createToken({ name: 'Name' });
+      if (error) {
+        errors.stripe = error.message;
+        this.setState({ errors, isProcessing: false });
+      } else {
+        this.setState({ errors });
+        this.props.handleSubmit(token, this.state, () => { this.setState({ isProcessing: false }) });
+      }
+    } else {
+      this.setState({ errors });
+    }
   };
 
   render() {
     return (
       <form className="checkout-form" onSubmit={this.getToken}>
+        <p style={{ width: '100%', margin: 0, color: 'red' }}>{
+          (Object.keys(this.state.errors).length > 0 && !this.state.errors.stripe) || (Object.keys(this.state.errors).length > 1) ?
+            'All fields must be filled out!' : null
+        }</p>
         <div className="default-flex">
           <div className="text-field-left">
             <TextField
@@ -37,6 +62,7 @@ class Form extends Component {
               label="First Name"
               margin="normal"
               variant="outlined"
+              error={this.state.errors.fName ? true : false}
               value={this.state.fName}
               onChange={e => this.setState({ fName: e.target.value })}
             />
@@ -49,6 +75,7 @@ class Form extends Component {
               label="Last Name"
               margin="normal"
               variant="outlined"
+              error={this.state.errors.lName ? true : false}
               value={this.state.lName}
               onChange={e => this.setState({ lName: e.target.value })}
             />
@@ -62,6 +89,7 @@ class Form extends Component {
           margin="normal"
           variant="outlined"
           color="secondary"
+          error={this.state.errors.email ? true : false}
           value={this.state.email}
           onChange={e => this.setState({ email: e.target.value })}
         />
@@ -72,6 +100,7 @@ class Form extends Component {
           label="Shipping Address"
           margin="normal"
           variant="outlined"
+          error={this.state.errors.address ? true : false}
           value={this.state.address}
           onChange={e => this.setState({ address: e.target.value })}
         />
@@ -85,6 +114,7 @@ class Form extends Component {
               margin="normal"
               variant="outlined"
               color="secondary"
+              error={this.state.errors.city ? true : false}
               value={this.state.city}
               onChange={e => this.setState({ city: e.target.value })}
             />
@@ -98,6 +128,7 @@ class Form extends Component {
               margin="normal"
               color="secondary"
               variant="outlined"
+              error={this.state.errors.state ? true : false}
               value={this.state.state}
               onChange={e => this.setState({ state: e.target.value })}
             />
@@ -111,13 +142,18 @@ class Form extends Component {
               margin="normal"
               color="secondary"
               variant="outlined"
+              error={this.state.errors.zip ? true : false}
               value={this.state.zip}
               onChange={e => this.setState({ zip: e.target.value })}
             />
           </div>
         </div>
+        <p style={{ marginBottom: 10, marginTop: 0, color: 'red' }}>{this.state.errors.stripe}</p>
         <CardElement />
-        <Button type="submit" style={{ width: '40%', marginTop: 24, marginLeft: '30%' }} variant="contained" color="primary">Submit</Button>
+        <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <Button type="submit" style={{ width: '40%' }} disabled={this.state.isProcessing} variant="contained" color="primary">Submit</Button>
+          {this.state.isProcessing && <CircularProgress size={26} style={{ marginTop: '-31px' }} />}
+        </div>
       </form>
     )
   }
@@ -130,12 +166,13 @@ class Checkout extends Component {
     this.state = {
       showModal: false,
       token: null,
+      checkoutError: '',
       price: 0
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(token, data) {
+  handleSubmit(token, data, callback) {
     const { parts, name } = this.props.location.state;
     const { fName, lName, email, address, city, state, zip } = data;
     let total = 5;
@@ -150,19 +187,30 @@ class Checkout extends Component {
         headers: {
           'Content-Type': 'application/json'
         }
-      }).then((res) => {
-        if (res.status === 200) {
-          this.props.db
-            .collection('purchases')
-            .doc()
-            .set({ fName, lName, email, address, city, state, zip, parts, name, dateSubmitted: Date.now() })
-            .then(() => this.setState({ showModal: true }))
-            .catch(err => console.log(err));
-        } else {
-          console.log(res);
-          this.setState({ showModal: true });
-        }
       })
+        .then(res => res.json())
+        .then((res) => {
+          if (res.status === 200) {
+            const { id, paid, receipt_url } = res;
+            callback();
+            this.props.db
+              .collection('purchases')
+              .doc()
+              .set({ fName, lName, email, address, city, state, zip, parts, name, dateSubmitted: Date.now(), charge: { id, paid, receipt_url } })
+              .then(() => this.setState({ showModal: true }))
+              .catch(err => console.log(err));
+            window.open(receipt_url, '_blank');
+          } else {
+            console.log(res);
+            callback();
+            this.setState({ showModal: true, checkoutError: 'Payment process failed! Your card has not been charged, and your order will not be processed. Please try again later.' });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          callback();
+          this.setState({ showModal: true, checkoutError: 'Failed to reach our payment servers, your card has not been charged, please try again later.' });
+        })
     }
   }
 
@@ -291,9 +339,13 @@ class Checkout extends Component {
           disableAutoFocus
         >
           <Paper style={{ width: '50%', height: 300, outline: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-            <h1 style={{ textAlign: 'center' }}>Successfully Placed your Order</h1>
-            <p style={{ textAlign: 'center', marginTop: 0 }}>Your Purchase will be processed and shipped within 3-5 business days.</p>
-            <Button style={{ width: '30%', marginTop: 10 }} variant="contained" color="primary"><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Return to HomePage</Link></Button>
+            <h1 style={{ textAlign: 'center' }}>{this.state.checkoutError ? 'Failed to Place your Order' : 'Successfully Placed your Order'}</h1>
+            <p style={{ textAlign: 'center', marginTop: 0 }}>{this.state.checkoutError || 'Your Purchase will be processed and shipped within 3-5 business days.'}</p>
+            {this.state.checkoutError ?
+              <Button onClick={() => {
+                this.setState({ showModal: false, checkoutError: false });
+              }} variant="contained" color="primary" style={{ width: '30%', marginTop: 10 }}>Okay</Button> :
+              <Button style={{ width: '30%', marginTop: 10 }} variant="contained" color="primary"><Link to="/" style={{ textDecoration: 'none', color: '#fff' }}>Return to HomePage</Link></Button>}
           </Paper>
         </Modal>
         {!carts || (carts && carts.parts.length === 0) ? <Redirect to={{ pathname: "/edit" }} /> : null}
