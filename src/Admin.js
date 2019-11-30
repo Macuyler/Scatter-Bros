@@ -33,11 +33,13 @@ const Admin = (props) => {
   const [ purchases, setPurchases ] = useState([]);
   const [ user, setUser ] = useState({ isSignedIn: false });
   useEffect(() => {
-    props.db.collection('purchases').get().then(pDocs => {
-      setPurchases(pDocs.docs.map(p => ({ ...p.data(), id: p.id, ref: p.ref })))
-    });
     cancelSub = props.firebase.auth().onAuthStateChanged(u => {
       const newUser = u !== null ? { isSignedIn: true, ...u } : { isSignedIn: false };
+      if (newUser.isSignedIn) {
+        props.db.collection('purchases').get().then(pDocs => {
+          setPurchases(pDocs.docs.map(p => ({ ...p.data(), id: p.id, ref: p.ref })))
+        });
+      }
       setUser(newUser);
     });
     return cancelSub;
