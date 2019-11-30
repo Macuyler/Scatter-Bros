@@ -18,7 +18,7 @@ const App = () => {
   const [stripeKey, setStripeKey] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:9000/stripe_key", {
+    fetch("https://stripe.scatterbros.com/stripe_key", {
       method: "GET"
     })
       .then(res => res.json())
