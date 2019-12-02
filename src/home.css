@@ -6,11 +6,12 @@
 }
 
 .home-left-content {
-  width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-left: 100px;
+  width: 50%;
+  min-width: 300px;
+  margin-left: 50px;
 }
 
 .home-left-content p {
@@ -28,33 +29,46 @@
   color: rgba(219, 34, 42, 1);
 }
 
-.home-right-content {
-  position: relative;
-  z-index: 10;
-  width: 50%;
-  margin-left: 100px;
+.home-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: scroll;
+}
+
+.home-content > img.home-logo {
+  align-self: flex-end;
 }
 
 .home-logo {
-  position: relative;
-  left: 145px;
   width: 530px;
-  top: 100px;
+  margin: 40px 20px 30px 0;
 }
 
 .home-description {
-  position: relative;
-  top: 40%;
-  left: 55px;
+  width: 30%;
+  padding: 20px;
+  align-self: flex-end;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  background: rgba(0, 0, 0, 0.75);
 }
 
-.home-right-content p {
+.home-description p {
   margin: 0;
   line-height: 36px;
   font-size: 30px;
-  text-align: center;
   font-family: 'Roboto';
   font-weight: lighter;
+  color: #fff;
 }
 
 .blue-background {
@@ -74,4 +88,22 @@
   left: calc(50% - 110px);
   width: 545px;
   height: auto;
+}
+
+@media only screen and (max-width: 1400px) {
+
+  /* Mobilify */
+  .blue-background, .boys { display: none; }
+  .home-content > img.home-logo { align-self: center; width: 80%; max-width: 530px; }
+  .home-left-content {
+    align-self: center;
+    width: 80%;
+    align-items: center;
+    margin: 0;
+  }
+  .home-heading { text-align: center; font-size: 3rem; }
+  .home-left-content p { font-size: 2rem; }
+  .home-left-content p br { display: none; }
+  .home-description { width: 100%; margin-top: 20px; margin-bottom: 0; margin-right: 0; box-sizing: border-box; align-items: center; }
+  .home-description p { font-size: 1.5rem; text-align: center; }
 }

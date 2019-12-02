@@ -2,6 +2,9 @@
   max-width: 1280px;
   margin: 0 auto;
   display: flex;
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-bottom: 20px;
 }
 
 .checkout-leftContent {
@@ -108,4 +111,14 @@
   display: flex;
   margin-left: 5px;
   flex: 1;
+}
+
+@media only screen and (max-width: 1130px) {
+  .checkout-mainContent {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+  .checkout-leftContent, .checkout-rightContent {
+    min-width: 400px;
+  }
 }

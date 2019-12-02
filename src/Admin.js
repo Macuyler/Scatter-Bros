@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Button } from "@material-ui/core";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import Login from './Login';
 
 const pipeTypeToImage = {
   pipe2: "https://images-na.ssl-images-amazon.com/images/I/51YAw0xjeFL._SX466_.jpg",
@@ -26,13 +27,23 @@ const pipeTypeToText = {
   pipecon: "Coupling"
 };
 
+let cancelSub = () => {};
+
 const Admin = (props) => {
   const [ purchases, setPurchases ] = useState([]);
+  const [ user, setUser ] = useState({ isSignedIn: false });
   useEffect(() => {
-    props.db.collection('purchases').get().then(pDocs => {
-      setPurchases(pDocs.docs.map(p => ({ ...p.data(), id: p.id, ref: p.ref })))
+    cancelSub = props.firebase.auth().onAuthStateChanged(u => {
+      const newUser = u !== null ? { isSignedIn: true, ...u } : { isSignedIn: false };
+      if (newUser.isSignedIn) {
+        props.db.collection('purchases').get().then(pDocs => {
+          setPurchases(pDocs.docs.map(p => ({ ...p.data(), id: p.id, ref: p.ref })))
+        });
+      }
+      setUser(newUser);
     });
-  }, [props.db]);
+    return cancelSub;
+  }, [props.db, props.firebase]);
 
   const getPrice = (p) => {
     let total = 5;
@@ -56,7 +67,7 @@ const Admin = (props) => {
     })
   };
 
-  return (
+  return user.isSignedIn ? (
     <div className="admin-page-wrapper">
       <Typography variant="h3" style={{ color: "#fff", marginBottom: 12 }}>Scatter Bros Administration</Typography>
       {purchases.map((purchase, i) => purchase.fullfilled ? null : (
@@ -106,8 +117,13 @@ const Admin = (props) => {
           </ExpansionPanelDetails>
         </ExpansionPanel>
       ))}
+      <Button style={{
+        position: 'absolute',
+        top: 30,
+        right: 80,
+      }} onClick={() => props.firebase.auth().signOut()} color="primary">Logout</Button>
     </div>
-  );
+  ) : <Login firebase={props.firebase} />;
 };
 
 export default Admin;

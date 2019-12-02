@@ -4,19 +4,21 @@ import { StripeProvider } from "react-stripe-elements";
 import { MuiThemeProvider } from "@material-ui/core";
 import firebase from "./firebase";
 import "firebase/firebase-firestore";
+import "firebase/firebase-auth";
 import Editor from "./Editor";
 import Checkout from "./Checkout";
 import Admin from "./Admin";
 import theme from "./theme";
 import Home from "./Home";
 
-const db = firebase().firestore();
+const fb = firebase();
+const db = fb.firestore();
 
 const App = () => {
   const [stripeKey, setStripeKey] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:9000/stripe_key", {
+    fetch("https://stripe.scatterbros.com/stripe_key", {
       method: "GET"
     })
       .then(res => res.json())
@@ -34,7 +36,7 @@ const App = () => {
             <Switch>
               <Route path="/edit" component={Editor} />
               <Route path="/checkout" component={props => <Checkout db={db} {...props} />} />
-              <Route path="/admin" component={props => <Admin db={db} {...props} />} />
+              <Route path="/admin" component={props => <Admin db={db} firebase={fb} {...props} />} />
               <Route path="/" component={Home} />
             </Switch>
           </Router>
